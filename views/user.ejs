@@ -1,0 +1,29 @@
+
+ <script type="text/javascript">
+        $(document).ready(function(){
+                $('.carousel').carousel({
+                  interval: 4500
+                });
+                $('.fancybox').fancybox({
+                        'width'  : '50%',
+                        'height' : '45%',
+                        'autoScale' : false,
+                        'transitionIn' : 'none',
+                        'transitionOut' : 'none',
+                        helpers : {
+                          title : {
+                            type : 'outside'
+                          },
+                          overlay : {
+                             speedOut : 0
+                           }
+                        }
+                });
+        });
+ </script>
+
+<% if (user) { %>
+  <%- partial('say') %>
+<% } %>
+<% include posts %>
+

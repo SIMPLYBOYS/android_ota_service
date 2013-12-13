@@ -1,0 +1,249 @@
+<script type="text/javascript">
+
+      var iBytesUploaded = 0;
+      var iBytesTotal = 0;
+      var iPreviousBytesLoaded = 0;
+      var iManifestUpload = 0
+
+      function secondsToTime(secs) { // we will use this function to convert seconds in normal time format
+         var hr = Math.floor(secs / 3600);
+         var min = Math.floor((secs - (hr * 3600))/60);
+         var sec = Math.floor(secs - (hr * 3600) -  (min * 60));
+
+         if (hr < 10) {hr = "0" + hr; }
+         if (min < 10) {min = "0" + min;}
+         if (sec < 10) {sec = "0" + sec;}
+         if (hr) {hr = "00";}
+         return hr + ':' + min + ':' + sec;
+      };
+ 
+      function bytesToSize(bytes) {
+        var sizes = ['Bytes', 'KB', 'MB'];
+        if (bytes == 0) return 'n/a';
+          var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+        return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
+      };
+
+      function fileSelected() {
+        console.log('--- fileSelected ---');
+	document.getElementById('progress_percent').innerHTML = "";
+        document.getElementById('transmit').innerHTML = "";
+	document.getElementById('upload_response').style.display = 'none';
+	document.getElementById('progBar').style.display = 'none';
+        document.getElementById('fileinfo').style.display = 'none';
+	document.getElementById('remaining').style.display = 'none';
+	document.getElementById('b_transfered').style.display = 'none';
+	document.getElementById('speed').style.display = 'none';
+        document.getElementById('total').style.display = 'none';
+        var file = document.getElementById('fileToUpload').files[0];
+        console.log('file.name: ' + file.name);
+        if (file) {
+          var fileSize = 0;
+          if(file.name === 'manifest.xml'){
+            console.log('---- upload manifest.xml ---\n');
+            iManifestUpload = 1;
+          }
+          if (file.size > 1024 * 1024)
+            fileSize = (Math.round(file.size * 100 / (1024 * 1024)) / 100).toString() + 'MB';
+          else
+            fileSize = (Math.round(file.size * 100 / 1024) / 100).toString() + 'KB';
+          document.getElementById('fileinfo').style.display = 'block';
+          document.getElementById('fileName').innerHTML = 'Name: ' + file.name;
+          document.getElementById('fileSize').innerHTML = 'Size: ' + fileSize;
+          document.getElementById('fileType').innerHTML = 'Type: ' + file.type; 
+        }
+      }
+
+      function uploadFile() {
+        var fd = new FormData(); 
+        var progressBar = document.getElementById('progBar');
+        progressBar.style.display = 'block';
+        progressBar.style.width = '1200px';
+        progressBar.style.height = '15px';
+        document.getElementById('progress_info').style.display = 'block'; 
+        document.getElementById('total').style.display = 'block';
+	document.getElementById('speed').style.display = 'block';
+	document.getElementById('remaining').style.display = 'block';
+        document.getElementById('b_transfered').style.display = 'block';
+        fd.append("fileToUpload", document.getElementById('fileToUpload').files[0]);
+        var xhr = new XMLHttpRequest();
+        xhr.upload.addEventListener("progress", uploadProgress, false);
+        xhr.addEventListener("load", uploadComplete, false);
+        xhr.addEventListener("error", uploadFailed, false);
+        xhr.addEventListener("abort", uploadCanceled, false);
+        xhr.open('post', window.location, true);
+        xhr.send(fd);
+        /*var form1 = document.getElementById('form1');
+        form1.reset();*/
+        document.getElementById('fileName').innerHTML = 'Name: ' ;
+        document.getElementById('fileSize').innerHTML = 'Size: ' ;
+        document.getElementById('fileType').innerHTML = 'Type: ' ;
+	document.getElementById('fileToUpload').innerHTML = ""; 
+      }
+
+      function doInnerUpdates() {
+        //alert("doInnerUpdates excute!!");
+        var iCB = iBytesUploaded; 
+        var iDiff = iCB - iPreviousBytesLoaded;
+        // if nothing new loaded - exit
+    	if (iDiff == 0)
+        	return;
+    	iPreviousBytesLoaded = iCB;
+    	iDiff = iDiff * 2;
+    	var iBytesRem = iBytesTotal - iPreviousBytesLoaded;
+    	var secondsRemaining = iBytesRem / iDiff;
+    	// update speed info
+    	var iSpeed = iDiff.toString() + 'B/s';
+	iSpeed_t = iDiff;
+    	if (iDiff > 1024 * 1024) {
+        	iSpeed = (Math.round(iDiff * 100/(1024*1024))/100).toString() + 'MB/s';
+    	} else if (iDiff > 1024) {
+        	iSpeed =  (Math.round(iDiff * 100/1024)/100).toString() + 'KB/s';
+    	} 
+    	document.getElementById('speed').innerHTML = iSpeed;
+    	document.getElementById('remaining').innerHTML = 'Remain: | ' + secondsToTime(secondsRemaining);
+      }
+
+      function uploadProgress(evt) {
+        iBytesUploaded = evt.loaded;
+	iBytesTotal = evt.total;
+	var iBytesTransfered = bytesToSize(iBytesUploaded);
+	var bar = document.getElementById('progBar');
+	bar.value = 0;
+	if (evt.lengthComputable) {
+  	  var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+  	  var speed = evt.total;
+  	  bar.value = percentComplete;
+  	  document.getElementById('progress_percent').innerHTML = percentComplete.toString() + '%';
+  	  document.getElementById('transmit').innerHTML = bytesToSize(iBytesTotal);
+	  document.getElementById('b_transfered').innerHTML = iBytesTransfered;	
+	  doInnerUpdates();
+	}
+	else {
+  	  document.getElementById('progress_percent').innerHTML = 'unable to compute';
+	}
+      }
+
+      function uploadComplete(evt) {
+     /* This event is raised when the server send back a response */
+	  //alert(evt.target.responseText); 
+	  //document.getElementById('upload_response').style.display = 'block';
+	  $("#upload_response").fadeIn(1000).delay(3500).fadeOut('slow');
+          $('#effect').show('scale', {percent : 100}, 500).delay(3500).fadeOut('slow');
+	  var bar = document.getElementById('progBar');
+          var responseText = evt.target.responseText; 
+	  bar.value = 0;  
+	  document.getElementById('upload_response').innerHTML = responseText;
+          //document.getElementById('upload-complete').style.display = 'block'; 
+          console.log('iManifestUpload:' + iManifestUpload);
+          if(iManifestUpload == 1){
+		console.log('upload manifest.xml to server!');
+                iManifestUpload = 0; //reset value 
+                $('#myModal').modal({
+                      show: true
+                });
+	  }
+      }
+
+      function uploadFailed(evt) {
+	  alert("There was an error attempting to upload the file.");
+      }
+
+      function uploadCanceled(evt) {
+	  alert("The upload has been canceled by the user or the browser dropped the connection.");
+      }
+
+      function page_reflash(evt) {
+          $('#reflash').click(function() {
+	     location.reload();
+	   }); 
+      }
+
+      $(document).ready(function(){
+            //alert("have fun!!");
+ 	    var e1 = document.getElementById("fileName");
+            $('#effect').hide(); 
+            $('.fancybox').fancybox({
+                        'width'  : '50%',
+                        'height' : '45%',
+                        'autoScale' : false,
+                        'transitionIn' : 'none',
+                        'transitionOut' : 'none',
+                        'type' : 'inline',
+                        helpers : {
+                          title : {
+                            type : 'outside'
+                          },
+                          overlay : {
+                             speedOut : 0
+                           }
+                        }
+            });
+      });
+
+</script>
+
+<fieldset>
+  <legend> Select a File to Upload </legend> 
+     <input type="file" name="fileToUpload" id="fileToUpload" onchange="fileSelected();"/>    
+   <br>
+   <div id="fileinfo"> 
+     <div id="fileName"></div>
+     <div id="fileSize"></div>
+     <div id="fileType"></div>
+   </div>
+   <br> 
+	<button class="btn btn-primary start" onclick="uploadFile()"><i class="icon-upload icon-white"></i>Upload</button> 
+   <br>
+       <div id="progress_info">
+	 <div>
+	    <progress value="0" max="100" id="progBar">
+            </progress>
+	    <br>
+	    <div id="progress_percent">&nbsp;</div>  
+	    <div id="total">Total:</div>
+	    <div id="transmit">&nbsp;</div> 
+	    <div id="speed">&nbsp;</div>
+	    <div id="remaining">&nbsp;</div>
+            <div id="b_transfered">&nbsp;</div>
+	 </div>
+       </div>  
+	<br>
+        <div id="upload_response"></div>
+	<br> 
+       <!--<button id="reflash" class="btn btn-info" onclick="page_reflash()"><i class="icon-refresh icon-white"></i>Reflash</button> --> 
+
+</fieldset>
+
+<div class="toggler">
+  <div id="effect" class="ui-widget-content ui-corner-all">
+    <h3 class="ui-widget-header ui-corner-all">Show</h3>
+    <p>
+        <h6>File upload to uploads folder successfully !!!!!</h6>
+    </p>
+  </div>
+</div>
+
+<div id="inline2" style="width:400px;display: none;">
+   <ul><span style="font-size: 1.1em; color: #0000FF;font-family:Courier">TEST</span></ul>
+</div>
+
+ <!--<form method="post" action="/post" class="well form-inline left" style="text-align:left;"> 
+    <input type="text" class="input-xlarge" name="post">
+    <button type="submit" class="btn btn-success"><i class="icon-file icon-white"></i>Post</button>--> 
+
+<div id="inline1" style="width:700px;display: none;">
+    <p>
+<% if(locals.uploaded != null) {%>
+  <% items.forEach(function(item, index){ %>
+          <span style="font-size: 1.1em; color: #0000FF;font-family:Courier"><%= item %></span>
+          <br>
+  <% }) %>
+<% } %>
+    </p>
+</div>
+
+<% include syncDB  %>
+
+
+

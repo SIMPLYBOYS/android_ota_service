@@ -1,0 +1,58 @@
+<script type="text/javascript">
+$(document).ready(function(){
+   var iManifestUpload = $('#profile').text();
+   $('#profile').hide();
+   console.log('iManifestUpload: ' + iManifestUpload);
+   if(iManifestUpload == '1'){  
+     $('#update_Modal').modal({
+       show: true
+     });
+   } else if(iManifestUpload == '2'){
+     $('#upload_Modal').modal({
+       show: true
+     });
+   }
+});
+</script>
+
+</head>
+
+<body>
+<div id="profile"><%= manifest %></div>
+<!-- Button to trigger modal -->
+<!-- <a href="#myModal" role="button" class="btn" data-toggle="modal">Launch demo modal</a> -->
+
+<!--Update Profile Modal -->
+<div id="update_Modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal"></button>
+    <h3 id="ModalLabel">Update Manifest Profile</h3>
+  </div>
+  <div class="modal-body">
+    <a class="btn btn-primary btn-large" href="/update"><i class="icon-th icon-white"></i>UpdateProfile</a> 
+    <br>
+    <br>
+    <p>Press the Button to update Manifest Profile to DataBase</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+  </div>
+</div>
+
+<!-- Upload Modal -->
+<div id="upload_Modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal"></button>
+    <h3 id="myModalLabel">Upload Image</h3>
+  </div>
+  <div class="modal-body">
+    <a class="btn btn-warning btn-large" href="/uploads"><i class="icon-th icon-white"></i>Upload Image</a>
+    <br>
+    <br>
+    <p>Press the Button to upload Image to Server</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+  </div>
+</div>
+

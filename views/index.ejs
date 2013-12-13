@@ -1,0 +1,231 @@
+    <script> 
+        $(document).ready(function(){     
+               /*var skew = $("#skew")
+               ,   t1 = new TimelineLite();*/
+               
+               /*$("h3").text(function(n, current){
+                    console.log("n:"+ n + ":" + current);
+               });*/
+
+               <% if (!locals.user && !locals.fbuser) { %> 
+               // Text animation start	  
+               var $startAnim = $("#start-anim")
+               ,   $demoText = $("#demo-text");
+             
+
+               //Split the text into characters and wrap every character into span element, then convert the whitespaces to whitespace characters.
+	       $demoText.html( $demoText.html().replace(/./g, "<span>$&</span>").replace(/\s/g, "&nbsp;"));              
+              
+               //$startAnim.on("click", startAnimation);
+				
+	       function startAnimation(){
+	         TweenLite.set($startAnim, {autoAlpha:0});
+		   TweenMax.staggerFromTo( $demoText.find("span"), 0.5, {autoAlpha:0, transformOrigin:"left top", 
+                     scale:2}, {autoAlpha:1, color:"black", rotation:0, scale:1}, 0.05, reset );
+		}
+				
+		function reset(){
+		  TweenMax.to($startAnim, 1, {autoAlpha:1});
+		} 
+                     
+               // Text animation end  
+               <% } %> 
+
+	       function getSkewAnimation() {
+			var skewTimeline = new TimelineLite();
+			skewTimeline.from(skew, 0.3, {alpha:0})
+					.to(skew, 0.5, {skewX:45})
+					.to(skew, 0.8, {skewX:-45})
+					.to(skew, 0.5, {skewX:5, skewY:-10})
+					.to(skew, 0.5, {skewX:20, skewY:5})
+					.to(skew, 0.5, {alpha:0});
+			return skewTimeline;		
+	       }
+        
+               //var pic = document.getElementById("logo");		 
+               var pic = $('#logo')[0];
+               if(pic){
+                  /*var tween = TweenLite.to(logo, 2, {left:"850px",
+                                       backgroundColor:"#F2F2F2",
+                                       color:"black",
+                                       paused:false,
+                                       ease:Bounce.easeOut});
+                  tween.resume();*/
+                  TweenMax.to(pic, 1, {left:"850px", repeat:1, yoyo:true}); 
+                }
+                $('.carousel').carousel({
+                  interval: 4500
+                });
+                $('.fancybox').fancybox({
+                        'width'  : '50%',
+                        'height' : '45%',
+                        'autoScale' : false,
+                        'transitionIn' : 'none',
+                        'transitionOut' : 'none',
+                        'type' : 'inline',
+                        helpers : {
+                          title : {
+                            type : 'outside'
+                          },
+                          overlay : {
+                             speedOut : 0
+                           }
+                        }
+                });
+                $('.fancybox-media')
+                                .attr('rel', 'media-gallery')
+                                .fancybox({
+                                        openEffect : 'none',
+                                        closeEffect : 'none',
+                                        prevEffect : 'none',
+                                        nextEffect : 'none',
+
+                                        arrows : false,
+                                        helpers : {
+                                                media : {},
+                                                buttons : {}
+                                        }
+                                });
+           console.log('test check_v_3');
+           /*t1.add("skew")
+             .add(getSkewAnimation())*/
+           <% if (!locals.user && !locals.fbuser) { %>
+           startAnimation();
+           <% } %>
+        });
+        $('#check_v').bind('click', function(){
+          console.log('test check_v');
+          $.fancybox.showLoading();
+        }) ;
+    </script> 
+
+   <% if (!locals.user && !locals.fbuser) { %> 
+    <div class="hero-unit">
+             <h1 style="text-shadow:6px 6px 5px #999999;">Welcome to Shuttle OTA</h1>
+             <p><div id="demo-text" style="text-shadow:6px 6px 10px #999999;">Shttle OTA is an Over The Air service which is based on Node.js</div></p>
+             <p>       
+                <a class="btn btn-primary btn-large" href="/login"><i class="icon-th icon-white"></i>Login</a>
+                <a class="btn btn-info btn-large" href="/reg"><i class="icon-edit icon-white"></i>Sign Up Now</a>
+            </p>
+             <br />
+             <br />
+             <div>
+                 <div id="logo"></div> 
+                 <!--<div id="skew"></div>-->
+                <!--<img src="images/logo.png">-->
+             </div> 
+    </div>
+    </ br>
+     <!--<div id="demo-text">Hello, I am div element.</div>-->
+ 
+    <% } else { %>
+
+        <audio controls autoplay loop muted>
+                <source src="/audios/world.wav" type="audio/wav">
+                <source src="/audios/shout.wav" type="audio/wav">
+                 Your browser does not support the audio element.
+        </audio>
+        <br>
+        <br>
+	
+	<div class="carousel slode" id="home-carousel">
+
+	 <div class="carousel-inner">
+	  <div class="item active">
+	    <img src="images/butterfly.jpg" alt="butterfly">
+	    <div class="carousel-caption"><p>Butterfly Emerges from Stellar Demise in Plantary Nebula NGC 6302<br><a href="http://hubblesite.org/gallery/album/pr2009025f/">Hubblesites.org</a></p></div>
+	  </div><!-- .item -->
+
+ 	  <div class="item">
+            <img src="images/colors.jpg" alt="colors">
+            <div class="carousel-caption"><p>Spitzer and Hubble Create Colorful Masterpiece<br><a href="http://hubblesite.org/gallery/album/entire/pr2006001q/">Hubblesite.org</a></p></div>
+          </div><!-- .item -->
+
+	  <div class="item">
+            <img src="images/galaxies.jpg" alt="galaxies">
+            <div class="carousel-caption"><p>Interacting Spiral Galaxies NGC 2207 and IC 2163<br><a href="http://hubblesite.org/gallery/album/entire/pr2004045a/">Hubblesite.org</a></p></div>
+          </div><!-- .item -->	
+
+	  <div class="item">
+            <img src="images/jupiter.jpg" alt="jupiter">
+	    <div class="carousel-caption"><p>Jupiter and Ganymede<br><a href="http://hubblesite.org/gallery/album/entire/pr2008042a/">Hubblesite.org</a></p></div>
+          </div><!-- .item -->
+
+         </div><!-- .carousel-inner -->
+
+         <a class="carousel-control left" href="#home-carousel" data-slide="prev">&lsaquo;</a>
+         <a class="carousel-control right" href="#home-carousel" data-slide="next">&rsaquo;</a>
+
+	</div><!-- .carousel  -->	
+       
+        <!-- <video src="/videos/Shuttle.mp4" controls autoplay loop muted width 300 height 300>Can't Play </video>
+        <br>
+        <br> -->
+ 
+        <div id="inline2" style="width:400px;display: none;">
+           <ul><span style="font-size: 1.1em; color: #0000FF;font-family:Courier">TEST</span></ul> 
+        </div>
+		
+    <% } %> 
+      <!--  Example row of columns -->
+      <% if (!locals.user && !locals.fbuser) { %>   
+      <div class="row">
+        <div class="span4">
+          <h3>About Shuttle OTA</h3>
+          <p class="text-info"> paragraph1 </p>
+          <p><a class="btn" href="/aboutus"><i class="icon-zoom-in"></i>View details &raquo;</a></p>
+        </div>
+        <div class="span4">
+          <h3>Avaliable Update Packages</h3>
+          <p class="text-info"> <% products.forEach(function(product, index){ %>
+            <td><span style="font-weight:bold;color:red;"><%= index+1 %>. </span> <%= product %></td>
+            <% }) %> </p>
+          <p><a class="btn" href="/time"><i class="icon-zoom-in"></i>View details &raquo;</a></p>
+        </div>
+        <div class="span4">
+          <h3>Avaliable Platforms</h3>
+          <p class="text-info">Support List:</p>
+          <p><a href="http://www.mtksj.com/html/MTKshoujizixun/5158.html"><img id="platform" src="/images/mtk6582.jpg" alt="Link to MTK" border=0></a></p>
+          <p><img id="platform" src="/images/rk3168.jpg"> </p>
+          <p><img id="platform" src="/images/rk3066.jpg"> </p>
+          <p><img id="platform" src="/images/amlogic.jpg"> </p>
+          <p><a class="btn" href="/time"><i class="icon-zoom-in"></i>View details &raquo;</a></p>
+        </div>
+      </div>
+      <hr>
+      <% } else { %> 
+	<!--<div class="hero-unit">	
+	<img src="images/Koala.jpg" id ="Koala" style="visibility:hidden;filter:revealTrans();" onContextMenu="alert('This Picture should not be downloaded!!'); return false" onMouseOver="this.style.width =800" onMouseOut="this.style.width=300">
+	</div>
+	<script language="javascript">
+	 
+		Koala.filters.revealTrans.apply();
+		Koala.filters.revealTrans.transition = 12;
+		Koala.style.visibility = "";
+		Koala.filters.revealTrans.play(10);	
+	
+	</script>
+	
+	<div class="modal hide fade">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Modal header</h3>
+  </div>
+  <div class="modal-body">
+    <p>One fine body </p>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn">Close</a>
+    <a href="#" class="btn btn-primary">Save changes</a>
+  </div>
+</div> -->  
+ 
+       <%- partial('say') %> 
+       <% include posts %>
+      <% } %> 
+
+       
+
+
+   
+

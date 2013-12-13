@@ -1,0 +1,50 @@
+
+<input id=msg><button id=send>Send</button>
+<div id=output></div>
+
+<form class="form-search">
+ <div class="input-append">
+	<input type="text" class="span2 search-query">
+	<button type="submit" class="btn">Search</button>
+ <div>
+</form>
+
+<script>
+(function (){
+	var ws = new WebSocket("ws://10.0.0.144:8080"),
+	  output = document.getElementById('output'),
+	  send = document.getElementById('send');
+	  	
+	function logStr(eventStr, msg) {
+		return '<div>' + eventStr + ':' + msg + '</div>'; 
+	};
+	
+	send.addEventListener('click', function (){
+		var msg = document.getElementById('msg').value;
+		ws.send(msg);
+		output.innerHTML += logStr('Sent', msg);
+	});
+        
+        ws.onopen = function () fest.customer{
+
+
+	  ws.onmessage = function (e) {
+		  //output.innerHTML += logStr('Received', e.data);
+		   output.innerHTML += '<div>Recieved: ' + e.data + '</div>';
+	  };
+	
+	  ws.onclose = function (e) {
+		  //output.innerHTML += logStr('Disconnected', e.code + '-' + e.type);
+		   output.innerHTML += 'Disconnected: ' + e.code + ' - ' + e.type;
+	  };
+
+	  ws.onerror = function (e) {
+		  //output.innerHTML += logStr('Error', e.data);
+		 output.innerHTML += 'Error: ' + e.data;
+	  };
+
+	};
+ }()); 
+</script>
+
+

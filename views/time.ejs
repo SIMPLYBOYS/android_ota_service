@@ -1,0 +1,64 @@
+<script type="text/javascript">
+$(document).ready(function(){
+  $( "#dialog-modal" ).dialog({
+      height: 150,
+      modal: true,
+      autoOpen: true,
+      show: {
+        effect: "blind",
+        duration: 1000
+      },
+      hide: {
+        effect: "explode",
+        duration: 1000
+      }
+    });
+});
+var int = setInterval("get_time()",1000);
+var t = document.getElementById("time");
+var p = document.getElementById("p1");
+t.style.color = "blue";
+t.style.fontSize = "120%";
+document.write(p.innerHTML + " is " + p.id);
+
+function get_time() {
+     var today = new Date();
+     document.getElementById('time').innerHTML = 'Now is: ' + today.toString();
+};
+
+</script>
+
+
+<div class="hero-unit">
+<form id="time" align="left"> 
+  <div id= "time_info"></div>  
+</form>
+
+<h1>Browser in TV</h1>
+<iframe width="640" height="360" src="http://www.youtube.com/embed/4pj-wfHQJMA" frameborder="0" allowfullscreen></iframe>
+
+<!-- <textareai cols="30" rows="20">
+  Please fill in some message.
+</textarea> -->
+
+<% if (!locals.user) {%>
+<br>
+<br>
+<% } else { %>
+  <p> This is a paragraph for testing.</p>
+<% } %>
+</div>
+
+<!--<form action="/time" method="post">
+  <fieldset>
+    <legend> login address</legend>
+        <label for="address">Address</label>
+        <input type="text" id="address">
+  </fieldset>
+</form>-->
+
+<div id="dialog-modal" title="Basic modal dialog">
+  <p>Adding the modal overlay screen makes the dialog look more prominent because it dims out the page content.</p>
+</div>
+
+

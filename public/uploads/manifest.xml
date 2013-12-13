@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+   <fingerprint name="rk30sdk/rk30sdk/rk30sdk:4.1.1/JRO03H/JB_v00.01.30_rk30sdk_20130322:eng/test-keys">	     
+                <package_path name="packages/rk30sdk/rk30sdk/JB_v00.01.30_rk30sdk_20130322/update.zip"> 
+                </package_path> 
+                     <!--  <package_path name ="packages/ Brand / product / Build_ID/update.zip" />    -->
+                <md5sum name ="ecc9e3c4513fda7377959d4514b25e41">
+                </md5sum>
+   </fingerprint>   
+</manifest>

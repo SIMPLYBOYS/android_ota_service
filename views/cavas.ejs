@@ -1,0 +1,17 @@
+
+<canvas id="mycanvas" width="500" height="500" style="border:1px #000 solid;">
+</canvas>
+<script type="text/javascript">
+var mycanvas = document.getElementById("mycanvas");
+var ctx = mycanvas.getContext('2d');
+ctx.fillStyle="red";
+var i=0;
+setInterval(function(){
+		i++;
+		ctx.clearRect(0,0,500,500);
+		ctx.fillRect(i,0,100,100);	
+	},10);
+</script>
+
+
+

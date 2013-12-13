@@ -1,0 +1,19 @@
+
+<script type="text/javascript">
+$(document).ready(function(){
+  $("button").click(function(){
+  $(".hero-unit").toggle(1500);
+  });
+});
+</script>
+
+<div class="hero-unit">
+<h3>Manifest Info: </h3>
+<% if(locals.user) {%>
+<ol>
+<ul><span style="font-size: 1.1em; color: #0000FF;font-family:Courier"><%- partial('listitem', items) %></span></ul>
+</ol>
+<% } %>
+</div>
+<button type="button">Switch</button>
+

@@ -1,0 +1,28 @@
+
+<table class="table table-striped">
+       <thead>
+          <tr>
+            <th>#</th>
+              <th>Version Name</th>
+              <th>Release Date</th>
+              <th>Image Size</th>
+              <th>Download Link</th>
+          </tr>
+       </thred> 
+       <tbody>
+<% urls.forEach(function(url, index){ %>
+               <tr><td><span class="badge"><%= (index+1) %></span></td><td><%= products[index] %></td><td><%= times[index] %><td><%= size[index] %></td></td><td><a href=<%= url %>><button class="btn btn-mini btn-primary" type="button">Download</button></a></td></tr>
+             
+<% }) %>
+  </tbody>
+</table>
+
+<div id="inline1" style="width:700px;display: none;">
+    <p>
+<% items.forEach(function(item, index){ %>
+          <span style="font-size: 1.1em; color: #0000FF;font-family:Courier"><%= item %></span>
+          <br>
+<% }) %>
+    </p>
+</div>
+

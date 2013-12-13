@@ -1,0 +1,90 @@
+
+  <form id="form1" enctype="multipart/form-data" method="post" action="/file-upload">
+    <div class="row">
+      <label for="fileToUpload">Select a File to Upload</label><br />
+      <input type="file" name="fileToUpload" value="Select File" id="fileToUpload" onchange="fileSelected();"/>
+    </div>
+    <div id="fileName"></div>
+    <div id="fileSize"></div>
+    <div id="fileType"></div>
+    <div class="row">
+      <input type=submit value="Upload" />
+    </div>
+    <div id="progressNumber"></div>
+  </form>
+  <progress id="progressbar" value="0" max="100"></progress> 
+  <script>
+  $(document).ready(function() {
+	
+			var progressbar = $('#progressbar'),
+				max = progressbar.attr('max'),
+				time = (1000/max)*5,	
+		        value = progressbar.val();
+
+		    var loading = function() {
+		        value += 1;
+		        addValue = progressbar.val(value);
+		        
+		        $('.progress-value').html(value + '%');
+
+		        if (value == max) {
+		            clearInterval(animate);			           
+		        }
+		    };
+
+		    var animate = setInterval(function() {
+		        loading();
+		    }, time);
+	});
+  </script>
+  <script type="text/javascript">
+    function uploadFile() {
+     var fileToUpload = document.getElementById('fileToUpload'),
+	 form1 = document.getElementById('form1'),
+         file;
+     fileToUpload.addEventListener('change', function (){
+       file = fileToUpload.files[0];
+     })
+     form1.addEventListener('submit', function(e){
+       e.preventDefault();
+       if (file) {
+         var xhr = new XMLHttpRequest();
+         xhr.file = file;
+         xhr.open('post', window.location, true);
+         xhr.setRequestHeader("x-uploadedfilename", file.fileName || file.name);
+         xhr.upload.addEventListener("progress", uploadProgress, false);
+         xhr.addEventListener("load", uploadComplete, false);
+         xhr.addEventListener("error", uploadFailed, false);
+         xhr.addEventListener("abort", uploadCanceled, false);
+         xhr.send(file);
+         file = '';
+	 form1.reset();
+       }
+     }); 
+   }
+   
+       function uploadProgress(evt) {
+        if (evt.lengthComputable) {
+          var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+          document.getElementById('progressNumber').innerHTML = percentComplete.toString() + '%';
+        }
+        else {
+          document.getElementById('progressNumber').innerHTML = 'unable to compute';
+        }
+      }
+
+      function uploadComplete(evt) {
+        /* This event is raised when the server send back a response */
+        alert(evt.target.responseText);
+      }
+
+      function uploadFailed(evt) {
+        alert("There was an error attempting to upload the file.");
+      }
+
+      function uploadCanceled(evt) {
+        alert("The upload has been canceled by the user or the browser dropped the connection.");
+      }
+
+  </script>
+

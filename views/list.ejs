@@ -1,0 +1,21 @@
+
+<table class="table table-striped">
+       <thead>
+          <tr>
+            <th>#</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Username</th>
+          </tr>
+       </thred> 
+       <tbody>
+<% items.forEach(function(item, index){ %>
+             <% if ( (index+1) %2 == 0 ) {%>
+               <tr><td><%= (index+1) %></td><td><%= item %></td><td>even</td><td>shuttle</td></tr>
+             <% } else { %>
+	       <tr><td><%= (index+1) %></td><td><%= item %></td><td>odd</td><td>shuttle</td></tr>
+             <% } %>
+<% }) %>
+  </tbody>
+</table>
+

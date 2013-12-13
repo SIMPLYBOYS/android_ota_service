@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html> 
+  <head>
+    <meta charset="utf-8">
+    <title><%= title %> - Shuttle OTA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="description" content="">
+    <meta name="author" content="shuttle OTA">	
+    <meta name="keywords" content="shuttle OTA, shuttle_ota">
+    <!--<meta http-equiv="refresh" content="10;http://www.google.com">-->
+    <link rel='stylesheet' href='/stylesheets/bootstrap.css' /> 
+    <link rel="stylesheet" href="/stylesheets/jquery-ui-1.10.3.custom.min.css" /> 
+    <link rel='stylesheet' href='/stylesheets/mylayout.css' />  
+    <link rel="stylesheet" href="/stylesheets/jquery.fancybox.css?v=2.1.5" media="screen" />
+    <link rel="stylesheet" href="/stylesheets/jquery.fancybox-buttons.css?v=1.0.5" />
+    <link rel="stylesheet" href="/stylesheets/jquery.fancybox-thumbs.css?v=1.0.7" />
+    <link rel="stylesheet" href="/stylesheets/bootstrap-responsive.css">
+    <!--<link rel="stylesheet" href="/stylesheets/flat-ui.css"> -->
+    <link rel="shortcut icon" href="images/favicon.ico"> 
+    
+    <script src="/javascripts/jquery.mousewheel-3.0.6.pack.js"></script>
+    <script src="/javascripts/jquery.js"></script> 
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/modernizr.js"></script> 
+    <script src="/javascripts/jquery.fancybox.js?v=2.1.5"></script>
+    <script src="/javascripts/jquery.fancybox-buttons.js?v=1.0.5"></script>
+    <script src="/javascripts/jquery.mousewheel-3.0.6.pack.js"></script>
+    <script src="/javascripts/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+    <!-- <script src="/javascripts/ota.js></script>  -->
+    <!--<script src="/javascripts/jquery-1.9.1.js"></script>-->
+    <script src="/javascripts/jquery-ui-1.10.3.custom.min.js"></script> 
+    <script src="/javascripts/jquery.fancybox-media.js?v=1.0.6"></script> 
+    <script src="/javascripts/greensock/plugins/CSSPlugin.min.js"></script>
+    <script src="/javascripts/greensock/TweenLite.min.js"></script>
+    <script src="/javascripts/greensock/TweenMax.min.js"></script>
+    <script src="/javascripts/greensock/easing/EasePack.min.js"></script>
+
+  </head>
+  <body>
+  
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner"> 
+        <br>
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/"><span style="font-size: 1.8em; color: #FFFFFF;font-family:Arial Black">ShuttleOTA</span></a>
+          <div class="nav-collapse collapse">
+            <ul class="nav nav-pills">
+              <li class="active"><a href="/"><i class="icon-home icon-white"></i>Home</a></li>
+              <% if(!locals.user && !locals.fbuser) { %>
+                <li><a href="/login"><i class="icon-th icon-white"></i>Login in</a></li>
+                <li><a href="/reg"><i class="icon-edit icon-white"></i>Sign up</a></li>	
+                <li><a href="/aboutus"><i class="icon-user icon-white"></i>AboutUs</a></li>
+              <% } else { %>
+   	        <li><a href="/uploads"><i class="icon-upload icon-white"></i>Uploads</a></li>		
+		<li><a href="/logout"><i class="icon-off icon-white"></i>Logout</a></li>
+	
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-file icon-white"></i>Manifest<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                      <li><a class ="fancybox" href="#inline1" title="Manifest Profile Page">Profile</a></li>
+                      <li><a class="fancybox" id="check_v" href="/update" title="Update Page">Check Version</a></li>
+                      <li><a class="fancybox" href="/downloadUrl" title="Download URL">Downloads</a></li>
+		      <li class="dropdown-submenu">
+			  <a tabindex="-1" href="#">More Options</a></li>
+			  <ul class="dropdown-menu">
+			    <li><a href="/manifest">Content</a></li>  
+			  </ul>
+                    </ul>
+                  </li>	
+                <% if(!locals.user && !locals.fbuser) { %>
+		  <li><a href="/time"><i class="icon-user icon-white"></i>AboutUs</a></li>           
+                <% } else if(locals.user){ %> 
+                    <li><a href="/time"><i class="icon-user icon-white"></i><%= locals.user.name %></a></li>
+                <% } else{ %>
+                    <li><a href="/time"><i class="icon-user icon-white"></i><%= locals.fbuser.name %></a></li>
+                <% } %>
+              <% } %>
+            </ul> 
+	     <form class="navbar-search pull-right" action="/search" method="get">
+                  <input name ="ota_search" type="text" class="search-query" placeholder="Search">
+                  <button type="submit" class="btn" title="Submit your search"><i class="icon-search"></i></button>
+                </form>     
+          </div><!--/ ./nav-collapse  -->
+        </div>
+      </div>
+    </div>
+
+
+    <div id="container" class="container">
+            <br>
+            <% if(locals.success) { %>
+              <div class="alert-success">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>  
+                <%= success %>
+              </div>
+            <% } %>
+            <% if(locals.error) { %>
+              <div class="alert-error">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <%= error %>
+              </div>
+            <% } %>
+            <br>  
+             <%- body %>      
+     <% include footer  %> 
+

@@ -1,0 +1,40 @@
+<form id=frm>
+  <!-- <input type=file id=userfile name=userfile><br> -->
+  <br>
+  <span class="btn btn-primary start fileinput-button">
+    <i class="icon-plus icon-white"></i>
+      <span>Add files...</span>
+      <input id=userfile type="file" name="files[]" multiple>
+    </span><br>
+    <br>
+  <span class="btn btn-success start fileinput-button">
+    <i class="icon-plus icon-white"></i>
+      <span>Upload </span>
+    <input type="submit"><i class="icon-comment icon-white"></i> 
+  </span><br>
+  <!--- <div class="progress">
+    <div class="bar" style="width: 60%;"></div>
+  </div> --->
+</form>
+<script>
+(function () { 
+  var userfile = document.getElementById('userfile'),
+    frm = document.getElementById('frm'),
+    file;
+  userfile.addEventListener('change', function () {
+    file = this.files[0];
+  });
+  frm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (file) {
+      var xhr = new XMLHttpRequest();
+      xhr.file = file;
+      xhr.open('put', window.location, true);
+      xhr.setRequestHeader("x-uploadedfilename", file.fileName || file.name);
+      xhr.send(file);
+      file = '';
+      frm.reset();
+    }
+  });
+}());
+</script>
