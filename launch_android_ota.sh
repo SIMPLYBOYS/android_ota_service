@@ -1,10 +1,10 @@
 #! /bin/sh
 
 NODE_ENV=production
-DAEMON="node /home/aaron/shuttle_ota_full/cluster.js"
+DAEMON="node /home/ec2-user/android_ota_service/cluster.js"
 NAME=Shuttle_OTA
 DESC=Shuttle_OTA
-PIDFILE="/home/aaron/shuttle_ota_full/shuttleota.pid"
+PIDFILE="/home/ec2-user/android_ota_service/android_ota.pid"
 
 case "$1" in
   start)
